@@ -17,5 +17,7 @@ export interface Project {
   description: string;
   specs: Specs;
   image: string;
+  thumbnail: string;
   drawings: string[];
+  drawingsThumbnails: string[];
 }

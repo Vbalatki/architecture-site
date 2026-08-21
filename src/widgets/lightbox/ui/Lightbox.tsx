@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Project } from "../../../entities/project/model/types";
@@ -10,6 +10,41 @@ interface LightboxProps {
   onChangeIndex: (index: number) => void;
 }
 
+const LightboxThumbnailItem: React.FC<{
+  src: string;
+  alt: string;
+  isActive: boolean;
+  isPriority: boolean;
+  onClick: () => void;
+}> = ({ src, alt, isActive, isPriority, onClick }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      className={`relative w-10 h-10 border transition-all shrink-0 bg-slate-900 overflow-hidden cursor-pointer ${
+        isActive 
+          ? "border-blue-500 scale-105 ring-2 ring-blue-500/30 brightness-100" 
+          : "border-white/10 hover:border-white/30 brightness-60 hover:brightness-100"
+      }`}
+    >
+      {!loaded && (
+        <div className="absolute inset-0 bg-slate-800 animate-pulse" />
+      )}
+      <img 
+        src={src} 
+        alt={alt} 
+        loading={isPriority ? undefined : "lazy"}
+        fetchPriority={isPriority ? "high" : undefined}
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`} 
+      />
+    </button>
+  );
+};
+
 export const Lightbox: React.FC<LightboxProps> = React.memo(({
   project,
   currentIndex,
@@ -17,10 +52,12 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
   onChangeIndex,
 }) => {
   const handlePrev = () => {
+    if (project.drawings.length === 0) return;
     onChangeIndex((currentIndex - 1 + project.drawings.length) % project.drawings.length);
   };
 
   const handleNext = () => {
+    if (project.drawings.length === 0) return;
     onChangeIndex((currentIndex + 1) % project.drawings.length);
   };
 
@@ -55,23 +92,32 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
         {/* Drawing image viewport */}
         <div className="flex-1 bg-slate-950 flex items-center justify-center relative min-h-[350px] md:min-h-[500px] h-full overflow-hidden select-none">
           {/* Active drawing index badge */}
-          <div className="absolute top-4 left-4 bg-slate-950/85 text-[10px] font-mono border border-white/5 px-3 py-1.5 text-slate-400 select-none uppercase tracking-widest z-10 shadow-lg">
-            Лист {currentIndex + 1} из {project.drawings.length}
-          </div>
+          {project.drawings.length > 0 && (
+            <div className="absolute top-4 left-4 bg-slate-950/85 text-[10px] font-mono border border-white/5 px-3 py-1.5 text-slate-400 select-none uppercase tracking-widest z-10 shadow-lg">
+              Лист {currentIndex + 1} из {project.drawings.length}
+            </div>
+          )}
 
           {/* Drawing content image */}
           <div className="w-full h-full flex items-center justify-center p-4 md:p-12 relative">
-            <motion.img 
-              key={currentIndex}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              src={project.drawings[currentIndex]} 
-              alt={`${project.title} - Чертеж ${currentIndex + 1}`} 
-              className="max-h-[70vh] md:max-h-[76vh] w-auto max-w-full object-contain shadow-2xl"
-              referrerPolicy="no-referrer"
-            />
+            {project.drawings[currentIndex] ? (
+              <motion.img 
+                key={currentIndex}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                src={project.drawings[currentIndex]} 
+                alt={`${project.title} - Чертеж ${currentIndex + 1}`} 
+                fetchPriority="high"
+                className="max-h-[70vh] md:max-h-[76vh] w-auto max-w-full object-contain shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="text-slate-500 font-mono text-xs uppercase tracking-wider">
+                Чертежи готовятся к публикации
+              </div>
+            )}
           </div>
 
           {/* Left/Right Arrows for multi-sheet portfolios */}
@@ -97,19 +143,19 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
           {/* Thumbnail strip */}
           {project.drawings.length > 1 && (
             <div className="absolute bottom-4 inset-x-4 flex justify-start md:justify-center gap-2 overflow-x-auto py-2 px-2 bg-slate-950/80 backdrop-blur-sm border border-white/5 max-w-[90%] mx-auto scrollbar-thin scrollbar-thumb-slate-700">
-              {project.drawings.map((drawingUrl, index) => (
-                <button
-                  key={index}
-                  onClick={() => onChangeIndex(index)}
-                  className={`w-10 h-10 border transition-all shrink-0 bg-slate-900 overflow-hidden cursor-pointer ${
-                    currentIndex === index 
-                      ? "border-blue-500 scale-105 ring-2 ring-blue-500/30" 
-                      : "border-white/10 hover:border-white/30 brightness-50 hover:brightness-100"
-                  }`}
-                >
-                  <img src={drawingUrl} alt="Thumbnail" className="w-full h-full object-cover" />
-                </button>
-              ))}
+              {project.drawings.map((_, index) => {
+                const thumbUrl = project.drawingsThumbnails?.[index] || project.drawings[index];
+                return (
+                  <LightboxThumbnailItem
+                    key={index}
+                    src={thumbUrl}
+                    alt={`Миниатюра ${index + 1}`}
+                    isActive={currentIndex === index}
+                    isPriority={index < 4}
+                    onClick={() => onChangeIndex(index)}
+                  />
+                );
+              })}
             </div>
           )}
         </div>

@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Maximize2, FileSpreadsheet } from "lucide-react";
 import { Project } from "../model/types";
 
 interface ProjectCardProps {
   project: Project;
+  isPriority?: boolean;
   onOpenLightbox: (project: Project, index: number) => void;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ project, onOpenLightbox }) => {
-  // Use a modern architectural drawing blueprint fallback if no actual images exist in the folder yet
-  const hasImages = !!project.image;
+export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ 
+  project, 
+  isPriority = false, 
+  onOpenLightbox 
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const hasImages = !!(project.thumbnail || project.image);
   
   const previewImage = hasImages
-    ? project.image
-    : "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800"; // engineering details fallback
+    ? (project.thumbnail || project.image)
+    : "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=75&w=400"; // engineering details fallback
 
   return (
     <div 
@@ -22,13 +27,26 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ project, on
       {/* Thumbnail Container */}
       <div className="relative aspect-[4/3] bg-slate-900 overflow-hidden">
         {hasImages ? (
-          <img 
-            src={previewImage} 
-            alt={project.title} 
-            className="w-full h-full object-cover opacity-85 group-hover:scale-105 transition-transform duration-700 grayscale group-hover:grayscale-0 transition-all cursor-pointer"
-            onClick={() => onOpenLightbox(project, 0)}
-            referrerPolicy="no-referrer"
-          />
+          <>
+            {/* Skeleton loading block */}
+            {!isLoaded && (
+              <div className="absolute inset-0 bg-slate-800 animate-pulse" />
+            )}
+            <img 
+              src={previewImage} 
+              alt={project.title} 
+              loading={isPriority ? undefined : "lazy"}
+              fetchPriority={isPriority ? "high" : undefined}
+              onLoad={() => setIsLoaded(true)}
+              className={`w-full h-full object-cover transition-all duration-700 cursor-pointer ${
+                isLoaded 
+                  ? "opacity-85 group-hover:opacity-100 grayscale group-hover:grayscale-0 group-hover:scale-105" 
+                  : "opacity-0"
+              }`}
+              onClick={() => onOpenLightbox(project, 0)}
+              referrerPolicy="no-referrer"
+            />
+          </>
         ) : (
           <div 
             onClick={() => onOpenLightbox(project, 0)}
@@ -36,13 +54,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ project, on
           >
             <div className="absolute inset-0 technical-grid opacity-20 pointer-events-none" />
             <FileSpreadsheet className="text-slate-500 w-10 h-10 mb-3 group-hover:scale-110 transition-transform" />
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold block mb-1">Синхронизация чертежей</span>
-            <span className="text-[9px] text-slate-600 font-mono">Файлы JPG загружаются...</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold block mb-1">Материалы проекта</span>
+            <span className="text-[9px] text-slate-600 font-mono">Чертежи готовятся к публикации</span>
           </div>
         )}
 
         {/* Technical Badges Overlaid on Image */}
-        <div className="absolute top-4 left-4 flex flex-col gap-1 pointer-events-none">
+        <div className="absolute top-4 left-4 flex flex-col gap-1 pointer-events-none z-10">
           <span className="bg-slate-900/90 text-white text-[8px] font-mono uppercase tracking-widest px-2.5 py-1 backdrop-blur-sm border border-white/10">
             {project.type}
           </span>
@@ -52,7 +70,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({ project, on
         </div>
 
         {/* Hover Overlay View Button */}
-        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
           <button 
             className="px-5 py-3 bg-white text-slate-950 font-semibold text-xs flex items-center gap-2 shadow-xl pointer-events-auto transition-transform scale-95 group-hover:scale-100 cursor-pointer focus:outline-none" 
             onClick={() => onOpenLightbox(project, 0)}

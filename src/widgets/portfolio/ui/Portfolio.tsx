@@ -18,7 +18,7 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
     (p) => p.id === "s-house"
   );
   const multiFamily = projects.filter(
-    (p) => p.folder.startsWith("многокв")
+    (p) => p.folder.startsWith("mnogokv") || p.folder.startsWith("многокв")
   );
 
   return (
@@ -45,10 +45,11 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
             <h4 className="text-2xl font-bold tracking-tight text-slate-950 mt-1">Коммерческие & Производственные объекты</h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {commercial.map((project) => (
+            {commercial.map((project, index) => (
               <ProjectCard 
                 key={project.id} 
                 project={project} 
+                isPriority={index < 3}
                 onOpenLightbox={onOpenLightbox} 
               />
             ))}

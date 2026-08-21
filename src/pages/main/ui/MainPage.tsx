@@ -34,14 +34,14 @@ export const MainPage: React.FC = () => {
         setActiveLightbox(null);
       } else if (e.key === "ArrowLeft") {
         setActiveLightbox((prev) => {
-          if (!prev) return null;
+          if (!prev || prev.project.drawings.length === 0) return prev;
           const { project, currentIndex } = prev;
           const prevIndex = (currentIndex - 1 + project.drawings.length) % project.drawings.length;
           return { project, currentIndex: prevIndex };
         });
       } else if (e.key === "ArrowRight") {
         setActiveLightbox((prev) => {
-          if (!prev) return null;
+          if (!prev || prev.project.drawings.length === 0) return prev;
           const { project, currentIndex } = prev;
           const nextIndex = (currentIndex + 1) % project.drawings.length;
           return { project, currentIndex: nextIndex };
@@ -170,10 +170,11 @@ export const MainPage: React.FC = () => {
               {/* Filtered Grid View */}
               {filteredProjects.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredProjects.map((project) => (
+                  {filteredProjects.map((project, index) => (
                     <ProjectCard
                       key={project.id}
                       project={project}
+                      isPriority={index < 3}
                       onOpenLightbox={handleOpenLightbox}
                     />
                   ))}
