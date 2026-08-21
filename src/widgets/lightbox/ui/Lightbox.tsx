@@ -14,9 +14,8 @@ const LightboxThumbnailItem: React.FC<{
   src: string;
   alt: string;
   isActive: boolean;
-  isPriority: boolean;
   onClick: () => void;
-}> = ({ src, alt, isActive, isPriority, onClick }) => {
+}> = ({ src, alt, isActive, onClick }) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -34,8 +33,7 @@ const LightboxThumbnailItem: React.FC<{
       <img 
         src={src} 
         alt={alt} 
-        loading={isPriority ? undefined : "lazy"}
-        fetchPriority={isPriority ? "high" : undefined}
+        decoding="async"
         onLoad={() => setLoaded(true)}
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
@@ -51,6 +49,24 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
   onClose,
   onChangeIndex,
 }) => {
+  // Предзагружаем текущий, предыдущий и следующий полноразмерные чертежи,
+  // чтобы навигация стрелками/миниатюрами была мгновенной
+  React.useEffect(() => {
+    const total = project.drawings.length;
+    if (total === 0) return;
+    const indicesToPreload = [
+      currentIndex,
+      (currentIndex + 1) % total,
+      (currentIndex - 1 + total) % total,
+    ];
+    indicesToPreload.forEach((i) => {
+      const url = project.drawings[i];
+      if (!url) return;
+      const img = new Image();
+      img.src = url;
+    });
+  }, [project, currentIndex]);
+
   const handlePrev = () => {
     if (project.drawings.length === 0) return;
     onChangeIndex((currentIndex - 1 + project.drawings.length) % project.drawings.length);
@@ -151,7 +167,6 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
                     src={thumbUrl}
                     alt={`Миниатюра ${index + 1}`}
                     isActive={currentIndex === index}
-                    isPriority={index < 4}
                     onClick={() => onChangeIndex(index)}
                   />
                 );

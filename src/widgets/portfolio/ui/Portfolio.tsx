@@ -31,26 +31,7 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
           <h3 className="text-4xl sm:text-5xl font-bold tracking-tighter text-slate-900">Выполненные проекты и чертежи.</h3>
         </div>
 
-        {/* 1. Religious & Public Buildings */}
-        {religiousAndPublic.length > 0 && (
-          <div className="space-y-8 lg:space-y-10">
-            <div className="border-b border-slate-200 pb-4">
-              <h4 className="text-2xl font-bold tracking-tight text-slate-950">Культовые и общественные здания</h4>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {religiousAndPublic.map((project, index) => (
-                <ProjectCard 
-                  key={project.id} 
-                  project={project} 
-                  isPriority={index === 0}
-                  onOpenLightbox={onOpenLightbox} 
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* 2. Commercial & Industrial Construction Division */}
+        {/* 1. Commercial & Industrial Construction Division */}
         {commercial.length > 0 && (
           <div className="space-y-8 lg:space-y-10">
             <div className="border-b border-slate-200 pb-4">
@@ -69,7 +50,7 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
           </div>
         )}
 
-        {/* 3. Private Living Houses Division */}
+        {/* 2. Private Living Houses Division */}
         {privateHouses.length > 0 && (
           <div className="space-y-8 lg:space-y-10">
             <div className="border-b border-slate-200 pb-4">
@@ -87,7 +68,7 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
           </div>
         )}
 
-        {/* 4. Multi-apartment Section Division */}
+        {/* 3. Multi-apartment Section Division */}
         {multiFamily.length > 0 && (
           <div className="space-y-8 lg:space-y-10">
             <div className="border-b border-slate-200 pb-4">
@@ -95,6 +76,24 @@ export const Portfolio: React.FC<PortfolioProps> = React.memo(({ projects, onOpe
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {multiFamily.map((project) => (
+                <ProjectCard 
+                  key={project.id} 
+                  project={project} 
+                  onOpenLightbox={onOpenLightbox} 
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 4. Religious & Public Buildings */}
+        {religiousAndPublic.length > 0 && (
+          <div className="space-y-8 lg:space-y-10">
+            <div className="border-b border-slate-200 pb-4">
+              <h4 className="text-2xl font-bold tracking-tight text-slate-950">Культовые и общественные здания</h4>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {religiousAndPublic.map((project) => (
                 <ProjectCard 
                   key={project.id} 
                   project={project} 

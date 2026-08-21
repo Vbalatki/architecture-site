@@ -7,10 +7,13 @@ import { Project } from "../../../entities/project/model/types";
 import { Header } from "../../../widgets/header/ui/Header";
 import { Footer } from "../../../widgets/footer/ui/Footer";
 import { Hero } from "../../../widgets/hero/ui/Hero";
+import { Companies } from "../../../widgets/companies/ui/Companies";
 import { About } from "../../../widgets/about/ui/About";
+import { Services } from "../../../widgets/services/ui/Services";
 import { Contact } from "../../../widgets/contact/ui/Contact";
 import { Lightbox } from "../../../widgets/lightbox/ui/Lightbox";
 import { Portfolio } from "../../../widgets/portfolio/ui/Portfolio";
+import { ALL_COMPANIES } from "../../../entities/company/model/companies";
 
 export const MainPage: React.FC = () => {
   const [activeLightbox, setActiveLightbox] = useState<{
@@ -81,8 +84,14 @@ export const MainPage: React.FC = () => {
         {/* Hero showcase */}
         <Hero onNavigate={handleNavigate} />
 
+        {/* Client trust companies section */}
+        <Companies companies={ALL_COMPANIES} />
+
         {/* About company section */}
         <About />
+
+        {/* Services section */}
+        <Services />
 
         {/* Portfolio gallery section with all project folders */}
         <Portfolio 

@@ -37,6 +37,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
               alt={project.title} 
               loading={isPriority ? undefined : "lazy"}
               fetchPriority={isPriority ? "high" : undefined}
+              decoding="async"
               onLoad={() => setIsLoaded(true)}
               className={`w-full h-full object-cover transition-all duration-700 cursor-pointer ${
                 isLoaded 

@@ -1,6 +1,5 @@
 import { Project } from "./types";
 
-// Helper to sanitize glob import keys across platforms and URL encodings
 const cleanKey = (key: string) => {
   try {
     return decodeURIComponent(key.split("?")[0]);
@@ -9,23 +8,48 @@ const cleanKey = (key: string) => {
   }
 };
 
-// 1. Full-resolution images
-const imageModules = import.meta.glob(
+// Полноразмерные файлы — только для большого просмотра в лайтбоксе и скачивания
+const imageModulesFull = import.meta.glob(
   "../../../assets/images/**/*.{jpg,jpeg,png,svg,webp,gif,JPG,PNG,JPEG,jfif,JFIF}",
   { eager: true }
 );
 
-const imagePaths: { [key: string]: string } = {};
-Object.entries(imageModules).forEach(([key, mod]) => {
-  imagePaths[cleanKey(key)] = (mod as any).default || (mod as any);
-});
+// Превью для карточек портфолио — сжатые и уменьшенные (700px webp q75)
+const imageModulesCard = import.meta.glob(
+  "../../../assets/images/**/*.{jpg,jpeg,png,svg,webp,gif,JPG,PNG,JPEG,jfif,JFIF}",
+  {
+    eager: true,
+    import: "default",
+    query: { w: "700", format: "webp", quality: "75" },
+  }
+);
 
-// Helper to match images for a given folder name (case-insensitive)
+// Крошечные миниатюры для полосы внизу модалки — грузятся все сразу (120px webp q60)
+const imageModulesStrip = import.meta.glob(
+  "../../../assets/images/**/*.{jpg,jpeg,png,svg,webp,gif,JPG,PNG,JPEG,jfif,JFIF}",
+  {
+    eager: true,
+    import: "default",
+    query: { w: "120", format: "webp", quality: "60" },
+  }
+);
+
+const buildPathMap = (modules: Record<string, any>) => {
+  const map: Record<string, string> = {};
+  Object.entries(modules).forEach(([key, mod]) => {
+    map[cleanKey(key)] = (mod as any)?.default ?? mod;
+  });
+  return map;
+};
+
+const fullPaths = buildPathMap(imageModulesFull);
+const cardPaths = buildPathMap(imageModulesCard);
+const stripPaths = buildPathMap(imageModulesStrip);
+
 const getProjectImages = (folder: string) => {
   const normalizedTarget = folder.toLowerCase();
-  
-  // Find all keys that belong to this folder
-  const matchingKeys = Object.keys(imagePaths).filter((path) => {
+
+  const matchingKeys = Object.keys(fullPaths).filter((path) => {
     const normalizedPath = path.toLowerCase().replace(/\\/g, "/");
     return (
       normalizedPath.includes(`/assets/images/${normalizedTarget}/`) ||
@@ -34,52 +58,52 @@ const getProjectImages = (folder: string) => {
   });
 
   if (matchingKeys.length === 0) {
-    return {
-      image: "",
-      thumbnail: "",
-      drawings: [],
-      drawingsThumbnails: [],
-    };
+    return { image: "", thumbnail: "", drawings: [], drawingsThumbnails: [] };
   }
 
-  // Sort keys naturally (e.g. 1.jpg, 2.jpg ... 11.jpg)
   const sortedKeys = [...matchingKeys].sort((a, b) => {
     const fileA = a.split("/").pop() || "";
     const fileB = b.split("/").pop() || "";
     return fileA.localeCompare(fileB, undefined, { numeric: true, sensitivity: "base" });
   });
 
-  // 1. Search for preview file (starts with "preview.")
   let previewKey = sortedKeys.find((k) => {
     const filename = (k.split("/").pop() || "").toLowerCase();
-    return filename.startsWith("preview.");
+    return filename.startsWith("preview.") || filename.includes("preview");
   });
 
-  // 2. If no preview.* found, find 1.jpg / 1_page / 1.* or pick first
   if (!previewKey) {
-    previewKey = sortedKeys.find((k) => {
-      const filename = (k.split("/").pop() || "").toLowerCase();
-      return (
-        filename === "1.jpg" ||
-        filename === "1.jpeg" ||
-        filename === "1.png" ||
-        filename.startsWith("1_") ||
-        filename.startsWith("1.")
-      );
-    }) || sortedKeys[0];
+    previewKey =
+      sortedKeys.find((k) => {
+        const filename = (k.split("/").pop() || "").toLowerCase();
+        return (
+          filename === "1.jpg" ||
+          filename === "1.jpeg" ||
+          filename === "1.png" ||
+          filename.startsWith("1_") ||
+          filename.startsWith("1.")
+        );
+      }) || sortedKeys[0];
   }
 
-  const previewUrl = previewKey ? imagePaths[previewKey] : "";
+  // Для карточки берём сжатую webp-версию, полноразмерную — только если сжатой почему-то нет (например .svg)
+  const previewCardUrl = previewKey
+    ? cardPaths[previewKey] || fullPaths[previewKey]
+    : "";
 
-  // Drawings list: all sheets in order
-  // If preview is a standalone cover and there are other numbered sheets, put all sheets in drawings
-  const drawingUrls = sortedKeys.map((k) => imagePaths[k]);
+  // Гарантируем, что превью всегда стоит на 1 месте (индекс 0)
+  const remainingKeys = sortedKeys.filter((k) => k !== previewKey);
+  const orderedKeys = previewKey ? [previewKey, ...remainingKeys] : sortedKeys;
+
+  const drawingUrls = orderedKeys.map((k) => fullPaths[k]);
+  const drawingStripThumbs = orderedKeys.map((k) => stripPaths[k] || fullPaths[k]);
 
   return {
-    image: previewUrl,
-    thumbnail: previewUrl,
-    drawings: drawingUrls.length > 0 ? drawingUrls : (previewUrl ? [previewUrl] : []),
-    drawingsThumbnails: drawingUrls.length > 0 ? drawingUrls : (previewUrl ? [previewUrl] : []),
+    image: previewCardUrl,
+    thumbnail: previewCardUrl,
+    drawings: drawingUrls.length > 0 ? drawingUrls : (previewCardUrl ? [fullPaths[previewKey!]] : []),
+    drawingsThumbnails:
+      drawingStripThumbs.length > 0 ? drawingStripThumbs : (previewCardUrl ? [previewCardUrl] : []),
   };
 };
 

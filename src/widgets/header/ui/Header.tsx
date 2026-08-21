@@ -37,6 +37,12 @@ export const Header: React.FC<HeaderProps> = React.memo(({ onNavigate }) => {
             О компании
           </button>
           <button 
+            onClick={() => scrollTo("services")} 
+            className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
+          >
+            Услуги
+          </button>
+          <button 
             onClick={() => scrollTo("projects")} 
             className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >
@@ -47,15 +53,6 @@ export const Header: React.FC<HeaderProps> = React.memo(({ onNavigate }) => {
             className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >
             Контакты
-          </button>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => scrollTo("contact")}
-            className="px-5 py-2.5 bg-slate-900 text-white font-mono text-[10px] tracking-widest uppercase hover:bg-slate-800 transition-all font-bold cursor-pointer"
-          >
-            Связаться
           </button>
         </div>
       </div>
