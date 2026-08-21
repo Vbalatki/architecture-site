@@ -1,0 +1,8 @@
+{
+  "name": "Engineer Design Portfolio",
+  "description": "Professional landing page for a design engineer, featuring technical specs, portfolio projects, and contact information with a blueprint-inspired aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
