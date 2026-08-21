@@ -27,9 +27,9 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onNavigate }) => {
               <span className="w-8 h-px bg-slate-400" />
               <span>РЕГИОНСТРОЙПРОЕКТ</span>
             </div>
-            <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter text-slate-900 break-words">
-              Проектирование <br/>
-              <span className="text-slate-400 inline-block mt-2 font-display">жизненного <br/> пространства.</span>
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.0] tracking-tighter text-slate-900">
+              <span className="whitespace-nowrap inline-block">Проектирование</span> <br />
+              <span className="text-slate-400 inline-block mt-2 font-display">жизненного пространства.</span>
             </h2>
             <p className="text-base sm:text-xl text-slate-600 max-w-lg leading-relaxed font-light">
               Создаю инновационные инженерные решения для современной архитектуры. 
@@ -48,7 +48,10 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onNavigate }) => {
               Обсудить проект
             </button>
             <button 
-              onClick={() => onNavigate("projects")}
+              onClick={() => {
+                const element = document.getElementById("projects");
+                if (element) element.scrollIntoView({ behavior: "smooth" });
+              }}
               className="px-6 py-4 sm:px-10 sm:py-5 border border-slate-200 text-slate-900 font-bold text-xs tracking-widest uppercase hover:bg-slate-100 transition-all flex items-center gap-2 cursor-pointer focus:outline-none"
             >
               Портфолио <ArrowUpRight size={14} />

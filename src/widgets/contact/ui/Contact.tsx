@@ -22,7 +22,7 @@ export const Contact: React.FC = React.memo(() => {
           <div className="py-6 md:py-0 flex flex-col items-center justify-center space-y-3 font-mono text-xs">
             <MapPin size={18} strokeWidth={1.5} className="text-slate-400" />
             <span className="text-[9px] uppercase tracking-wider text-slate-400">Адрес компании</span>
-            <span className="font-bold text-slate-850 text-center px-4">428034, ул. Филиппа Лукина, д.1, кв. 360</span>
+            <span className="font-bold text-slate-850 text-center px-4">428034, ул. Филиппа Лукина, д. 1</span>
           </div>
         </div>
       </div>
