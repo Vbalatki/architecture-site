@@ -14,6 +14,11 @@ const imageModulesFull = import.meta.glob(
   { eager: true }
 );
 
+const publicationCopies = import.meta.glob(
+  "../../../assets/images/многокв{1,2,3}/[0-9].jpg",
+  { eager: true, import: "default", query: "?publication" }
+);
+
 // Превью для карточек портфолио — сжатые и уменьшенные (700px webp q75)
 const imageModulesCard = import.meta.glob(
   "../../../assets/images/**/*.{jpg,jpeg,png,svg,webp,gif,JPG,PNG,JPEG,jfif,JFIF}",
@@ -43,6 +48,7 @@ const buildPathMap = (modules: Record<string, any>) => {
 };
 
 const fullPaths = buildPathMap(imageModulesFull);
+const publicationPaths = buildPathMap(publicationCopies);
 const cardPaths = buildPathMap(imageModulesCard);
 const stripPaths = buildPathMap(imageModulesStrip);
 
@@ -95,8 +101,8 @@ const getProjectImages = (folder: string) => {
   const remainingKeys = sortedKeys.filter((k) => k !== previewKey);
   const orderedKeys = previewKey ? [previewKey, ...remainingKeys] : sortedKeys;
 
-  const drawingUrls = orderedKeys.map((k) => fullPaths[k]);
-  const drawingStripThumbs = orderedKeys.map((k) => stripPaths[k] || fullPaths[k]);
+  const drawingUrls = orderedKeys.map((k) => publicationPaths[k] || fullPaths[k]);
+  const drawingStripThumbs = orderedKeys.map((k) => publicationPaths[k] || stripPaths[k] || fullPaths[k]);
 
   return {
     image: previewCardUrl,
