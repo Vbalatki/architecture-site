@@ -61,7 +61,7 @@ export function ProjectShowcase() {
   }
 
   return (
-    <section ref={section} aria-labelledby="showcase-heading" className="relative h-[360svh] bg-[#101619]">
+    <section ref={section} aria-labelledby="showcase-heading" className="relative h-[230svh] bg-[#101619]">
       <div ref={stage} className="sticky top-0 z-[51] h-svh overflow-hidden">
         <div className="absolute inset-0 grid [perspective:1600px]">
           {slides.map((slide, index) => (
