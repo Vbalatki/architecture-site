@@ -7,7 +7,9 @@ import { Project } from "../../../entities/project/model/types";
 import { Header } from "../../../widgets/header/ui/Header";
 import { Footer } from "../../../widgets/footer/ui/Footer";
 import { Hero } from "../../../widgets/hero/ui/Hero";
+import { ProjectShowcase } from "../../../widgets/project-showcase/ui/ProjectShowcase";
 import { About } from "../../../widgets/about/ui/About";
+import architecturalAboutImg from "../../../assets/images/architectural-studio-background.webp";
 import { Services } from "../../../widgets/services/ui/Services";
 import { Contact } from "../../../widgets/contact/ui/Contact";
 import { Lightbox } from "../../../widgets/lightbox/ui/Lightbox";
@@ -81,13 +83,17 @@ export const MainPage: React.FC = () => {
       <main className="flex-1 pt-20">
         {/* Hero showcase */}
         <Hero onNavigate={handleNavigate} />
+        <ProjectShowcase />
 
-
-        {/* About company section */}
-        <About />
-
-        {/* Services section */}
-        <Services />
+        <section id="about" aria-label="О компании и услуги" className="relative isolate scroll-mt-20 bg-slate-50">
+          <img src={architecturalAboutImg} alt="" loading="lazy" decoding="async"
+            className="absolute inset-0 -z-20 h-full w-full object-cover" />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-slate-50/85 lg:bg-transparent lg:bg-gradient-to-r lg:from-slate-50/95 lg:via-slate-50/80 lg:to-slate-50/45" />
+          <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-14 lg:py-24">
+            <About />
+            <Services />
+          </div>
+        </section>
 
         {/* Portfolio gallery section with all project folders */}
         <Portfolio 

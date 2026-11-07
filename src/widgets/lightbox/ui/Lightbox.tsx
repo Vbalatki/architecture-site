@@ -199,12 +199,12 @@ export const Lightbox: React.FC<LightboxProps> = React.memo(({
             <h4 className="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-2">Технические данные:</h4>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-slate-500">Масштаб:</span>
+                <span className="text-slate-500">Ориентир масштаба:</span>
                 <span className="text-slate-200">{project.specs.scale}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Площадь ОКС:</span>
-                <span className="text-slate-200">{project.specs.area}</span>
+              <div className="flex justify-between gap-3">
+                <span className="text-slate-500">Общая площадь, м²:</span>
+                <span className="text-slate-200 text-right">{project.specs.area}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Формат файлов:</span>

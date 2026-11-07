@@ -12,10 +12,10 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onNavigate }) => {
         <img 
           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000" 
           alt="Modern house architecture" 
-          className="w-full h-full object-cover opacity-30 hover:scale-105 transition-transform duration-[12s] ease-out"
+          className="w-full h-full object-cover opacity-80 hover:scale-105 transition-transform duration-[12s] ease-out"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 to-slate-50/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50/85 via-slate-50/75 to-slate-50/55 lg:via-slate-50/65 lg:to-slate-50/25" />
         <div className="absolute inset-0 technical-grid opacity-15" />
       </div>
       
@@ -29,7 +29,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onNavigate }) => {
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.0] tracking-tighter text-slate-900">
               <span className="whitespace-nowrap inline-block">Проектирование</span> <br />
-              <span className="text-slate-400 inline-block mt-2 font-display">жизненного пространства.</span>
+              <span className="text-slate-700 inline-block mt-2 font-display">жизненного пространства.</span>
             </h2>
             <p className="text-base sm:text-xl text-slate-600 max-w-lg leading-relaxed font-light">
               Создаю инновационные инженерные решения для современной архитектуры. 

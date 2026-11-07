@@ -37,12 +37,6 @@ export const Header: React.FC<HeaderProps> = React.memo(({ onNavigate }) => {
             О компании
           </button>
           <button 
-            onClick={() => scrollTo("services")} 
-            className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
-          >
-            Услуги
-          </button>
-          <button 
             onClick={() => scrollTo("projects")} 
             className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >

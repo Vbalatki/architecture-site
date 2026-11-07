@@ -117,7 +117,7 @@ const INITIAL_PROJECTS = [
     type: "Архитектурный проект (АР)",
     folder: "церквь",
     description: "Индивидуальный проект православного храма с традиционными сводчатыми конструкциями, колокольней, алтарной частью, трапезной и комплексом приходских помещений.",
-    specs: { scale: "1:100", area: "680 м²", format: "AutoCAD / PDF", sheets: "9 листов", software: "AutoCAD / Revit" }
+    specs: { scale: "1:100", area: "163,2", format: "AutoCAD / PDF", sheets: "9 листов", software: "AutoCAD / Revit" }
   },
   {
     id: "commercial-showroom",
@@ -128,7 +128,7 @@ const INITIAL_PROJECTS = [
     type: "Эскизный проект / Визуализация",
     folder: "автосалон",
     description: "Современный дилерский центр с просторным выставочным залом (шоурумом), зонами клиентского сервиса, административным блоком и витражным остеклением фасада.",
-    specs: { scale: "1:200", area: "1,850 м²", format: "AutoCAD / SketchUp", sheets: "5 листов", software: "AutoCAD / 3ds Max" }
+    specs: { scale: "1:100", area: "946,8", format: "AutoCAD / SketchUp", sheets: "5 листов", software: "AutoCAD / 3ds Max" }
   },
   {
     id: "commercial-autoservice",
@@ -139,7 +139,7 @@ const INITIAL_PROJECTS = [
     type: "Рабочий проект / Технология",
     folder: "автосервис",
     description: "Проект многопостового автосервиса с постами ТО, шиномонтажа, стендом сход-развала и диагностической линией. Полный комплект технологии ТХ и планировок.",
-    specs: { scale: "1:100", area: "920 м²", format: "AutoCAD DWG", sheets: "5 листов", software: "AutoCAD" }
+    specs: { scale: "1:100", area: "526,7", format: "AutoCAD DWG", sheets: "5 листов", software: "AutoCAD" }
   },
   {
     id: "industry-prod-complex",
@@ -150,7 +150,7 @@ const INITIAL_PROJECTS = [
     type: "Проектная документация (Стадия П)",
     folder: "Тула",
     description: "Комплект проектных планов и схем производственно-складского здания. Схема планировочной организации земельного участка (генплан), поэтажные планы, разрезы и фасады.",
-    specs: { scale: "1:200", area: "4,100 м²", format: "AutoCAD DWG", sheets: "6 листов", software: "AutoCAD" }
+    specs: { scale: "1:200", area: "903,93", format: "AutoCAD DWG", sheets: "6 листов", software: "AutoCAD" }
   },
   {
     id: "industry-warehouse-complex",
@@ -161,7 +161,7 @@ const INITIAL_PROJECTS = [
     type: "Архитектурно-строительные решения (АР/КР)",
     folder: "подольск",
     description: "Проект крупного логистического склада высокого стеллажного хранения. Рабочая документация конструкций, технологическая привязка и планировочные схемы.",
-    specs: { scale: "1:250", area: "8,650 м²", format: "AutoCAD / PDF", sheets: "9 листов", software: "AutoCAD / Advance Steel" }
+    specs: { scale: "1:200", area: "5 353,7", format: "AutoCAD / PDF", sheets: "9 листов", software: "AutoCAD / Advance Steel" }
   },
   {
     id: "industry-slaughterhouse-1",
@@ -172,7 +172,7 @@ const INITIAL_PROJECTS = [
     type: "Рабочий проект / Технология",
     folder: "кукморы",
     description: "Рабочая документация технологических решений и планировки цеха убоя. Включает детальные эскизные разрезы, генеральный план участка и спецификации оборудования.",
-    specs: { scale: "1:100", area: "1,250 м²", format: "PDF / DWG", sheets: "7 листов", software: "AutoCAD" }
+    specs: { scale: "1:200", area: "940,9", format: "PDF / DWG", sheets: "7 листов", software: "AutoCAD" }
   },
   {
     id: "industry-slaughterhouse-2",
@@ -183,7 +183,7 @@ const INITIAL_PROJECTS = [
     type: "Рабочая документация ТХ",
     folder: "хвойнинский",
     description: "Технологические решения и планировка производственного цеха переработки. Генеральный план предприятия, трассировка внутренних технологических потоков и спецификации.",
-    specs: { scale: "1:150", area: "2,300 м²", format: "AutoCAD DWG", sheets: "7 листов", software: "AutoCAD" }
+    specs: { scale: "1:100", area: "518,3", format: "AutoCAD DWG", sheets: "7 листов", software: "AutoCAD" }
   },
   {
     id: "g-survey",
@@ -194,7 +194,7 @@ const INITIAL_PROJECTS = [
     type: "Обмерный чертеж / Фасады",
     folder: "гражданская",
     description: "Точный архитектурный обмер существующих конструкций здания и детальный проект облицовки фасадов. Основа для современных планировочных решений.",
-    specs: { scale: "1:100", area: "482 м²", format: "AutoCAD DWG", sheets: "2 листа", software: "AutoCAD LT" }
+    specs: { scale: "1:100", area: "—", format: "AutoCAD DWG", sheets: "2 листа", software: "AutoCAD LT" }
   },
   {
     id: "s-house",
@@ -205,7 +205,7 @@ const INITIAL_PROJECTS = [
     type: "Эскизный проект / Планы",
     folder: "сосновка",
     description: "Проект загородного коттеджа из натуральных материалов. Архитектура гармонирует со зрелым сосновым лесом, панорамным остеклением и удобной планировкой.",
-    specs: { scale: "1:50", area: "245 м²", format: "Revit RVT / DWG", sheets: "2 листа", software: "Autodesk Revit" }
+    specs: { scale: "1:100", area: "—", format: "Revit RVT / DWG", sheets: "2 листа", software: "Autodesk Revit" }
   },
   {
     id: "m-house-1",
@@ -216,7 +216,7 @@ const INITIAL_PROJECTS = [
     type: "Эскизный проект",
     folder: "многокв1",
     description: "Архитектурная концепция многоквартирного дома с продуманной квартирографией и развитой придомовой территорией. Комплект поэтажных планировок и фасадов.",
-    specs: { scale: "1:150", area: "3,420 м²", format: "Revit RVT", sheets: "8 листов", software: "Autodesk Revit" }
+    specs: { scale: "1:100", area: "4 000", format: "Revit RVT", sheets: "8 листов", software: "Autodesk Revit" }
   },
   {
     id: "m-house-2",
@@ -227,7 +227,7 @@ const INITIAL_PROJECTS = [
     type: "Чертеж планировки",
     folder: "многокв2",
     description: "Развернутое архитектурное проектирование многоэтажного жилого дома. Поэтажные чертежи секций, подробная экспликация зон и расположение инженерных шахт.",
-    specs: { scale: "1:200", area: "5,800 м²", format: "Revit RVT / DWG", sheets: "3 листа", software: "Autodesk Revit" }
+    specs: { scale: "1:100", area: "13 000", format: "Revit RVT / DWG", sheets: "3 листа", software: "Autodesk Revit" }
   },
   {
     id: "m-house-3",
@@ -238,7 +238,7 @@ const INITIAL_PROJECTS = [
     type: "Архитектурный концепт",
     folder: "многокв3",
     description: "Концептуальные эскизные материалы многоквартирного жилого дома с подземным уровнем, кладовыми, фасадными решениями и разрезами.",
-    specs: { scale: "1:200", area: "7,200 м²", format: "Revit RVT", sheets: "3 листа", software: "Autodesk Revit" }
+    specs: { scale: "1:100", area: "10 900", format: "Revit RVT", sheets: "3 листа", software: "Autodesk Revit" }
   }
 ];
 

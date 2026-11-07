@@ -66,7 +66,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
             {project.type}
           </span>
           <span className="bg-slate-50 text-slate-900 text-[8px] font-mono px-2 py-0.5 border border-slate-200 shadow-sm font-semibold">
-            {project.specs.scale}
+            ≈ {project.specs.scale}
           </span>
         </div>
 
@@ -101,7 +101,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
         {/* Specs Key Value Metrics */}
         <div className="border-t border-slate-100 pt-4 grid grid-cols-2 gap-4 font-mono text-[10px] text-slate-400">
           <div>
-            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Площадь:</span>
+            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Общая площадь, м²:</span>
             <span className="text-slate-700 font-semibold">{project.specs.area}</span>
           </div>
           <div>
