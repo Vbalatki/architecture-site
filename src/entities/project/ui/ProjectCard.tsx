@@ -22,7 +22,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
 
   return (
     <div 
-      className="bg-white border border-slate-200 overflow-hidden flex flex-col group hover:shadow-md transition-shadow h-full"
+      className="bg-[#12243d] border border-[#2b405c] overflow-hidden flex flex-col group hover:border-[#f0cd80]/50 hover:shadow-lg transition-[border-color,box-shadow] h-full"
     >
       {/* Thumbnail Container */}
       <div className="relative aspect-[4/3] bg-slate-900 overflow-hidden">
@@ -65,9 +65,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
           <span className="bg-slate-900/90 text-white text-[8px] font-mono uppercase tracking-widest px-2.5 py-1 backdrop-blur-sm border border-white/10">
             {project.type}
           </span>
-          <span className="bg-slate-50 text-slate-900 text-[8px] font-mono px-2 py-0.5 border border-slate-200 shadow-sm font-semibold">
-            ≈ {project.specs.scale}
-          </span>
+          {project.specs.scale !== "—" && (
+            <span className="bg-slate-50 text-slate-900 text-[8px] font-mono px-2 py-0.5 border border-slate-200 shadow-sm font-semibold">
+              ≈ {project.specs.scale}
+            </span>
+          )}
         </div>
 
         {/* Hover Overlay View Button */}
@@ -84,37 +86,37 @@ export const ProjectCard: React.FC<ProjectCardProps> = React.memo(({
       {/* Info Panel under the preview */}
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
-          <div className="text-[9px] font-mono uppercase tracking-wider text-slate-400 mb-2">
+          <div className="text-[9px] font-mono uppercase tracking-wider text-[#f0cd80] mb-2">
             {project.categoryLabel}
           </div>
-          <h4 className="text-xl font-bold text-slate-900 tracking-tight leading-snug mb-1">
+          <h4 className="text-xl font-bold text-slate-50 tracking-tight leading-snug mb-1">
             {project.title}
           </h4>
-          <h5 className="text-xs font-semibold text-slate-500 mb-4 font-mono">
+          <h5 className="text-xs font-semibold text-slate-300 mb-4 font-mono">
             {project.subtitle}
           </h5>
-          <p className="text-xs text-slate-500 leading-relaxed line-clamp-3 mb-6">
+          <p className="text-xs text-slate-300 leading-relaxed line-clamp-3 mb-6">
             {project.description}
           </p>
         </div>
 
         {/* Specs Key Value Metrics */}
-        <div className="border-t border-slate-100 pt-4 grid grid-cols-2 gap-4 font-mono text-[10px] text-slate-400">
+        <div className="border-t border-[#314660] pt-4 grid grid-cols-2 gap-4 font-mono text-[10px] text-slate-400">
           <div>
-            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Общая площадь, м²:</span>
-            <span className="text-slate-700 font-semibold">{project.specs.area}</span>
+            <span className="text-[8px] uppercase tracking-wider text-slate-400 block">Общая площадь, м²:</span>
+            <span className="text-slate-100 font-semibold">{project.specs.area}</span>
           </div>
           <div>
-            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Софт в работе:</span>
-            <span className="text-slate-700 font-semibold">{project.specs.software}</span>
+            <span className="text-[8px] uppercase tracking-wider text-slate-400 block">Софт в работе:</span>
+            <span className="text-slate-100 font-semibold">{project.specs.software}</span>
           </div>
           <div>
-            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Формат файла:</span>
-            <span className="text-slate-700 font-semibold">{project.specs.format}</span>
+            <span className="text-[8px] uppercase tracking-wider text-slate-400 block">Формат файла:</span>
+            <span className="text-slate-100 font-semibold">{project.specs.format}</span>
           </div>
           <div>
-            <span className="text-[8px] uppercase tracking-wider text-slate-300 block">Чертежи комплекта:</span>
-            <span className="text-slate-700 font-semibold">{project.specs.sheets}</span>
+            <span className="text-[8px] uppercase tracking-wider text-slate-400 block">Чертежи комплекта:</span>
+            <span className="text-slate-100 font-semibold">{project.specs.sheets}</span>
           </div>
         </div>
       </div>

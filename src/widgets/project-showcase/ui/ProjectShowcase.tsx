@@ -38,7 +38,7 @@ const ShowcaseSlide: React.FC<ShowcaseSlideProps> = ({ slide, index, position, a
       aria-hidden={!active}
       style={reducedMotion ? { display: active ? undefined : "none" } : { x, rotateY, scale, zIndex: active ? 2 : 1 }}
     >
-      <img src={slide.image} alt={slide.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+      <img src={slide.image} alt={slide.title} loading="eager" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
     </motion.figure>
   );
 };
@@ -77,7 +77,7 @@ function MobileShowcase() {
             key={slide.title}
             src={slide.image}
             alt={slide.title}
-            loading="lazy"
+            loading="eager"
             decoding="async"
             className="aspect-[4/3] w-full shrink-0 snap-center snap-always object-cover"
           />

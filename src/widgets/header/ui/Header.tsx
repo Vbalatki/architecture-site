@@ -29,22 +29,22 @@ export const Header: React.FC<HeaderProps> = React.memo(({ onNavigate }) => {
           </div>
         </div>
         
-        <div className="hidden md:flex space-x-10 text-xs font-bold tracking-widest text-slate-600 uppercase">
+        <div className="hidden md:flex space-x-10 text-xs font-bold tracking-widest text-[#0b1931] uppercase">
           <button 
             onClick={() => scrollTo("about")} 
-            className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
+            className="hover:text-[#29466e] transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >
             О компании
           </button>
           <button 
             onClick={() => scrollTo("projects")} 
-            className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
+            className="hover:text-[#29466e] transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >
             Проекты
           </button>
           <button 
             onClick={() => scrollTo("contact")} 
-            className="hover:text-slate-900 transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
+            className="hover:text-[#29466e] transition-colors tracking-widest uppercase font-bold text-xs bg-transparent border-none cursor-pointer focus:outline-none"
           >
             Контакты
           </button>

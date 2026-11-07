@@ -73,7 +73,7 @@ const getProjectImages = (folder: string) => {
     return fileA.localeCompare(fileB, undefined, { numeric: true, sensitivity: "base" });
   });
 
-  let previewKey = sortedKeys.find((k) => {
+  let previewKey = sortedKeys.find((k) => k.toLowerCase().endsWith("/preview-realistic.webp")) ?? sortedKeys.find((k) => {
     const filename = (k.split("/").pop() || "").toLowerCase();
     return filename.startsWith("preview.") || filename.includes("preview");
   });
@@ -151,8 +151,8 @@ const INITIAL_PROJECTS = [
     id: "industry-prod-complex",
     title: "Производственный комплекс",
     subtitle: "Производственно-складской корпус с АБК (г. Тула)",
-    category: "commercial",
-    categoryLabel: "Коммерческая недвижимость",
+    category: "industrial",
+    categoryLabel: "Производственные объекты",
     type: "Проектная документация (Стадия П)",
     folder: "Тула",
     description: "Комплект проектных планов и схем производственно-складского здания. Схема планировочной организации земельного участка (генплан), поэтажные планы, разрезы и фасады.",
@@ -162,8 +162,8 @@ const INITIAL_PROJECTS = [
     id: "industry-warehouse-complex",
     title: "Складской комплекс",
     subtitle: "Логистический центр со складскими корпусами (г. Подольск)",
-    category: "commercial",
-    categoryLabel: "Коммерческая недвижимость",
+    category: "industrial",
+    categoryLabel: "Производственные объекты",
     type: "Архитектурно-строительные решения (АР/КР)",
     folder: "подольск",
     description: "Проект крупного логистического склада высокого стеллажного хранения. Рабочая документация конструкций, технологическая привязка и планировочные схемы.",
@@ -173,8 +173,8 @@ const INITIAL_PROJECTS = [
     id: "industry-slaughterhouse-1",
     title: "Мясоперерабатывающий цех",
     subtitle: "Цех убоя и первичной переработки скота (Кукмор)",
-    category: "commercial",
-    categoryLabel: "Коммерческая недвижимость",
+    category: "industrial",
+    categoryLabel: "Производственные объекты",
     type: "Рабочий проект / Технология",
     folder: "кукморы",
     description: "Рабочая документация технологических решений и планировки цеха убоя. Включает детальные эскизные разрезы, генеральный план участка и спецификации оборудования.",
@@ -184,8 +184,8 @@ const INITIAL_PROJECTS = [
     id: "industry-slaughterhouse-2",
     title: "Цех убоя и переработки",
     subtitle: "Проект инженерных сетей и технологии ТХ (п. Хвойнинский)",
-    category: "commercial",
-    categoryLabel: "Коммерческая недвижимость",
+    category: "industrial",
+    categoryLabel: "Производственные объекты",
     type: "Рабочая документация ТХ",
     folder: "хвойнинский",
     description: "Технологические решения и планировка производственного цеха переработки. Генеральный план предприятия, трассировка внутренних технологических потоков и спецификации.",
@@ -245,10 +245,46 @@ const INITIAL_PROJECTS = [
     folder: "многокв3",
     description: "Концептуальные эскизные материалы многоквартирного жилого дома с подземным уровнем, кладовыми, фасадными решениями и разрезами.",
     specs: { scale: "1:100", area: "10 900", format: "Revit RVT", sheets: "3 листа", software: "Autodesk Revit" }
-  }
+  },
+  {
+    id: "business-center-cheboksary",
+    title: "Здание делового центра",
+    subtitle: "Чебоксары, ул. Текстильщиков",
+    category: "business_center",
+    categoryLabel: "Бизнес-центры",
+    type: "Архитектурный проект",
+    folder: "business-center-cheboksary",
+    description: "Проект трёхэтажного делового центра. В комплекте четыре фасада, планы трёх этажей с экспликациями помещений, дневная и ночная визуализации.",
+    specs: { scale: "—", area: "855,5", format: "PDF", sheets: "9 листов", software: "—" }
+  },
 ];
 
-export const ALL_PROJECTS: Project[] = INITIAL_PROJECTS.map((project) => {
+const SHOPS = [
+  { slug: "morkvashi", name: "Моркваши", area: "599,8", sheets: "3 листа" },
+  { slug: "raifa", name: "Раифа", area: "550,3", sheets: "3 листа" },
+  { slug: "singeli", name: "Сингели", area: "513", sheets: "3 листа" },
+  { slug: "shelanga", name: "Шеланга", area: "456", sheets: "4 листа" },
+  { slug: "teteevo", name: "Тетеево", area: "442,9", sheets: "3 листа" },
+  { slug: "aldermysh", name: "Альдермыш", area: "416", sheets: "3 листа" },
+  { slug: "biryuli", name: "Бирюли", area: "548", sheets: "3 листа" },
+  { slug: "kulanga", name: "Куланга", area: "440", sheets: "3 листа" },
+  { slug: "kurkachi", name: "Куркачи", area: "546", sheets: "4 листа" },
+  { slug: "makulovo", name: "Макулово", area: "548", sheets: "3 листа" },
+];
+
+const shopProjects = SHOPS.map(({ slug, name, area, sheets }) => ({
+  id: `shop-${slug}`,
+  title: `Магазин «${name}»`,
+  subtitle: "Проект здания магазина",
+  category: "commercial",
+  categoryLabel: "Коммерческие объекты",
+  type: "Архитектурный проект",
+  folder: `shop-${slug}`,
+  description: "В комплекте генеральный план, план этажа с экспликацией помещений и фасады.",
+  specs: { scale: "—", area, format: "PDF", sheets, software: "—" },
+}));
+
+export const ALL_PROJECTS: Project[] = [...INITIAL_PROJECTS, ...shopProjects].map((project) => {
   const images = getProjectImages(project.folder);
   return {
     ...project,
