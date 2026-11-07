@@ -43,7 +43,65 @@ const ShowcaseSlide: React.FC<ShowcaseSlideProps> = ({ slide, index, position, a
   );
 };
 
-export function ProjectShowcase() {
+function MobileShowcase() {
+  const track = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  function goTo(index: number) {
+    const carousel = track.current;
+    if (!carousel) return;
+    carousel.scrollTo({
+      left: carousel.clientWidth * index,
+      behavior: reducedMotion ? "instant" : "smooth",
+    });
+  }
+
+  return (
+    <section aria-labelledby="mobile-showcase-heading" className="bg-[#101619] py-5 text-[#f0cd80] md:hidden">
+      <div className="mx-4 mb-3 grid min-h-12 grid-cols-2 items-start gap-3 border-b border-[#f0cd80]/55 pb-3 text-xs font-semibold uppercase leading-tight tracking-wide">
+        <h2 id="mobile-showcase-heading">Избранные работы</h2>
+        <p className="text-right" aria-live="polite">{slides[activeIndex].title}</p>
+      </div>
+      <div
+        ref={track}
+        className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        onScroll={({ currentTarget }) => {
+          if (currentTarget.clientWidth === 0) return;
+          const index = Math.round(currentTarget.scrollLeft / currentTarget.clientWidth);
+          setActiveIndex(Math.max(0, Math.min(lastIndex, index)));
+        }}
+      >
+        {slides.map((slide) => (
+          <img
+            key={slide.title}
+            src={slide.image}
+            alt={slide.title}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[4/3] w-full shrink-0 snap-center snap-always object-cover"
+          />
+        ))}
+      </div>
+      <div className="mx-auto mt-2 flex w-fit max-w-full rounded-full bg-[#0b1931] px-2" aria-label="Выбор проекта" role="group">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.title}
+            type="button"
+            onClick={() => goTo(index)}
+            aria-label={slide.title}
+            aria-current={index === activeIndex ? "true" : undefined}
+            className="flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-[#f0cd80]"
+          >
+            <span className={`h-0.5 w-7 rounded-full ${index === activeIndex ? "bg-[#f0cd80]" : "bg-[#f0cd80]/50"}`} />
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DesktopShowcase() {
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const reducedMotion = Boolean(useReducedMotion());
@@ -61,7 +119,7 @@ export function ProjectShowcase() {
   }
 
   return (
-    <section ref={section} aria-labelledby="showcase-heading" className="relative h-[230svh] bg-[#101619]">
+    <section ref={section} aria-labelledby="showcase-heading" className="relative hidden h-[230svh] bg-[#101619] md:block">
       <div ref={stage} className="sticky top-0 z-[51] h-svh overflow-hidden">
         <div className="absolute inset-0 grid [perspective:1600px]">
           {slides.map((slide, index) => (
@@ -88,5 +146,14 @@ export function ProjectShowcase() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function ProjectShowcase() {
+  return (
+    <>
+      <MobileShowcase />
+      <DesktopShowcase />
+    </>
   );
 }
